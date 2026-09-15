@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+{% block title %}Find a Donor{% endblock %}
+{% block content %}
+
+<section class="page-hero">
+  <div class="container">
+    <h1 class="page-hero-title">Find a <span class="accent">Donor</span></h1>
+    <p class="page-hero-sub">Search for available blood donors near you by blood group and city.</p>
+  </div>
+</section>
+
+<section class="search-section">
+  <div class="container">
+    <form method="POST" action="{{ url_for('find_donor') }}" class="search-form">
+      <div class="search-row">
+        <div class="form-group">
+          <label>Blood Group</label>
+          <select name="blood_group">
+            <option value="">Any Blood Group</option>
+            <option value="A+">A+</option>
+            <option value="A-">A−</option>
+            <option value="B+">B+</option>
+            <option value="B-">B−</option>
+            <option value="O+">O+</option>
+            <option value="O-">O−</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB−</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>City</label>
+          <input type="text" name="city" placeholder="Enter city name">
+        </div>
+        <button type="submit" class="btn btn-primary search-btn">Search Donors 🔍</button>
+      </div>
+    </form>
+  </div>
+</section>
+
+{% if donors %}
+<section class="donors-results">
+  <div class="container">
+    <h2 class="section-title">{{ donors|length }} Donor(s) Found</h2>
+    <div class="donors-grid">
+      {% for donor in donors %}
+      <div class="donor-card reveal">
+        <div class="donor-blood">{{ donor.blood_group }}</div>
+        <div class="donor-info">
+          <h4>{{ donor.name }}</h4>
+          <p>📍 {{ donor.city }}</p>
+          {% if donor.age %}<p>Age: {{ donor.age }}</p>{% endif %}
+          {% if donor.last_donated %}<p>Last donated: {{ donor.last_donated }}</p>{% endif %}
+        </div>
+        <div class="donor-action">
+          <a href="tel:{{ donor.phone }}" class="btn btn-sm btn-primary call-btn" data-phone="{{ donor.phone }}">📞 Call</a>
+          {% if donor.email %}
+          <a href="mailto:{{ donor.email }}" class="btn btn-sm btn-outline email-btn" data-email="{{ donor.email }}">✉️ Email</a>
+          {% endif %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% elif request.method == 'POST' %}
+<section class="no-results">
+  <div class="container text-center">
+    <div class="no-results-box">
+      <div class="no-res-icon">😔</div>
+      <h3>No donors found</h3>
+      <p>Try a different blood group or city. You can also submit an emergency request.</p>
+      <a href="{{ url_for('emergency') }}" class="btn btn-primary mt-2">Submit Emergency Request</a>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- Blood Camps -->
+<section class="camps-section">
+  <div class="container">
+    <h2 class="section-title">Upcoming Blood Camps</h2>
+    {% if camps %}
+    <div class="camps-table-wrap">
+      <table class="camps-table">
+        <thead>
+          <tr>
+            <th>Camp Name</th>
+            <th>Location</th>
+            <th>City</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Contact</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for camp in camps %}
+          <tr>
+            <td><strong>{{ camp.name }}</strong></td>
+            <td>{{ camp.location }}</td>
+            <td>{{ camp.city }}</td>
+            <td>{{ camp.date }}</td>
+            <td>{{ camp.time or '—' }}</td>
+            <td>
+              {% if camp.contact %}
+              <a href="tel:{{ camp.contact }}" class="btn btn-sm btn-primary">📞 Call</a>
+              {% else %}—{% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p class="text-center">No upcoming camps at the moment. Check back soon!</p>
+    {% endif %}
+  </div>
+</section>
+
+<!-- Compatibility Table -->
+<section class="compat-section">
+  <div class="container">
+    <h2 class="section-title">Blood Type Compatibility</h2>
+    <div class="compat-table-wrap">
+      <table class="compat-table">
+        <thead>
+          <tr>
+            <th>Blood Type</th>
+            <th>Can Donate To</th>
+            <th>Can Receive From</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>A+</strong></td><td>A+, AB+</td><td>A+, A−, O+, O−</td></tr>
+          <tr><td><strong>A−</strong></td><td>A+, A−, AB+, AB−</td><td>A−, O−</td></tr>
+          <tr><td><strong>B+</strong></td><td>B+, AB+</td><td>B+, B−, O+, O−</td></tr>
+          <tr><td><strong>B−</strong></td><td>B+, B−, AB+, AB−</td><td>B−, O−</td></tr>
+          <tr><td><strong>O+</strong></td><td>A+, B+, O+, AB+</td><td>O+, O−</td></tr>
+          <tr><td><strong>O−</strong></td><td>All blood types</td><td>O−</td></tr>
+          <tr><td><strong>AB+</strong></td><td>AB+</td><td>All blood types</td></tr>
+          <tr><td><strong>AB−</strong></td><td>AB+, AB−</td><td>A−, B−, O−, AB−</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

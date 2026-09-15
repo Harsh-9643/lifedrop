@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% block title %}Register as Donor{% endblock %}
+{% block content %}
+
+<section class="page-hero">
+  <div class="container">
+    <h1 class="page-hero-title">Become a <span class="accent">Donor</span></h1>
+    <p class="page-hero-sub">Fill out this quick form to join our donor network and start saving lives.</p>
+  </div>
+</section>
+
+<section class="register-section">
+  <div class="container two-col-register">
+
+    <div class="register-form-wrap reveal">
+      <h2>Donor Registration</h2>
+      <form method="POST" action="{{ url_for('register') }}" class="donor-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Full Name *</label>
+            <input type="text" name="name" placeholder="Your full name" required>
+          </div>
+          <div class="form-group">
+            <label>Age *</label>
+            <input type="number" name="age" placeholder="Your age" min="18" max="65" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Blood Group *</label>
+            <select name="blood_group" required>
+              <option value="">Select Blood Group</option>
+              <option value="A+">A+</option>
+              <option value="A-">A−</option>
+              <option value="B+">B+</option>
+              <option value="B-">B−</option>
+              <option value="O+">O+</option>
+              <option value="O-">O−</option>
+              <option value="AB+">AB+</option>
+              <option value="AB-">AB−</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>City *</label>
+            <input type="text" name="city" placeholder="Your city" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Phone Number *</label>
+            <input type="tel" name="phone" placeholder="10-digit phone" required>
+          </div>
+          <div class="form-group">
+            <label>Email (optional)</label>
+            <input type="email" name="email" placeholder="your@email.com">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Last Donation Date (if any)</label>
+          <input type="date" name="last_donated">
+        </div>
+        <div class="form-group checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" required>
+            I confirm I meet the eligibility criteria and am willing to donate blood.
+          </label>
+        </div>
+        <button type="submit" class="btn btn-primary btn-full">Register as Donor 🩸</button>
+      </form>
+    </div>
+
+    <div class="register-sidebar reveal">
+      <div class="sidebar-card">
+        <h3>💡 Eligibility Checklist</h3>
+        <ul class="check-list">
+          <li>✅ Age 18–65 years</li>
+          <li>✅ Weight ≥ 50 kg</li>
+          <li>✅ Hemoglobin ≥ 12.5 g/dL</li>
+          <li>✅ Good general health</li>
+          <li>✅ 3 months gap from last donation</li>
+          <li>❌ Not pregnant/breastfeeding</li>
+          <li>❌ No recent tattoo/piercing (6 months)</li>
+          <li>❌ No cold/flu in last 2 weeks</li>
+        </ul>
+      </div>
+      <div class="sidebar-card mt-2">
+        <h3>📞 Need Help?</h3>
+        <p>Call us at <strong>+91-XXXX-XXXXXX</strong> or email <strong>help@lifedrop.in</strong></p>
+      </div>
+      <div class="sidebar-card mt-2 benefits-card">
+        <h3>🌟 Benefits of Donating</h3>
+        <ul class="check-list">
+          <li>🩸 Free health check-up</li>
+          <li>🩸 Reduces risk of heart disease</li>
+          <li>🩸 Burns up to 650 calories</li>
+          <li>🩸 Stimulates blood cell production</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}

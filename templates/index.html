@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+
+<!-- Hero Section -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">🩸 India's Blood Donor Network</div>
+    <h1 class="hero-title">
+      One Donation.<br>
+      <span class="hero-accent">Three Lives Saved.</span>
+    </h1>
+    <p class="hero-sub">Join thousands of heroes giving the gift of life. Register as a donor, find blood in emergencies, or locate your nearest blood camp.</p>
+    <div class="hero-cta">
+      <a href="{{ url_for('register') }}" class="btn btn-primary btn-lg">Donate Blood</a>
+      <a href="{{ url_for('find_donor') }}" class="btn btn-outline btn-lg">Find a Donor</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num" data-target="{{ donors_count }}">0</span>
+        <span class="stat-label">Active Donors</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num" data-target="{{ camps_count }}">0</span>
+        <span class="stat-label">Blood Camps</span>
+      </div>
+      <div class="stat">
+        <span class="stat-num" data-target="0">155</span>
+        <span class="stat-label">Lives Saved</span>
+      </div>
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="blood-drop-anim">
+      <div class="drop-large">🩸</div>
+      <div class="ripple r1"></div>
+      <div class="ripple r2"></div>
+      <div class="ripple r3"></div>
+    </div>
+  </div>
+</section>
+
+<!-- Blood Groups Quick Search -->
+<section class="blood-groups-section">
+  <div class="container">
+    <h2 class="section-title">Search by Blood Group</h2>
+    <div class="blood-group-grid">
+      {% for bg in ['A+', 'A−', 'B+', 'B−', 'O+', 'O−', 'AB+', 'AB−'] %}
+      <a href="{{ url_for('find_donor') }}" class="blood-card">
+        <span class="bg-type">{{ bg }}</span>
+        <span class="bg-label">Find Donors</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- How It Works -->
+<section class="how-section">
+  <div class="container">
+    <h2 class="section-title">How It Works</h2>
+    <p class="section-sub">Simple steps to save a life</p>
+    <div class="steps-grid">
+      <div class="step reveal">
+        <div class="step-icon">📋</div>
+        <div class="step-num">01</div>
+        <h3>Register</h3>
+        <p>Fill out a quick form with your blood group and location. Takes under 2 minutes.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-icon">🔍</div>
+        <div class="step-num">02</div>
+        <h3>Get Matched</h3>
+        <p>Patients search for donors by blood group and city. Your contact appears when matched.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-icon">🩸</div>
+        <div class="step-num">03</div>
+        <h3>Donate</h3>
+        <p>Visit the hospital or blood bank and donate. The whole process takes about an hour.</p>
+      </div>
+      <div class="step reveal">
+        <div class="step-icon">🌟</div>
+        <div class="step-num">04</div>
+        <h3>Save Lives</h3>
+        <p>Your single donation can save up to 3 lives. You become a hero today.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Upcoming Camps -->
+{% if recent_camps %}
+<section class="camps-section">
+  <div class="container">
+    <h2 class="section-title">Upcoming Blood Camps</h2>
+    <div class="camps-grid">
+      {% for camp in recent_camps %}
+      <div class="camp-card reveal">
+        <div class="camp-date-badge">{{ camp.date }}</div>
+        <h3>{{ camp.name }}</h3>
+        <p class="camp-loc">📍 {{ camp.location }}, {{ camp.city }}</p>
+        {% if camp.time %}<p class="camp-time">🕐 {{ camp.time }}</p>{% endif %}
+        {% if camp.organizer %}<p class="camp-org">👤 {{ camp.organizer }}</p>{% endif %}
+        {% if camp.contact %}<a href="tel:{{ camp.contact }}" class="btn btn-sm btn-primary">Call to Register</a>{% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    <div class="text-center mt-3">
+      <a href="{{ url_for('find_donor') }}" class="btn btn-outline">View All Camps →</a>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- Active Emergencies -->
+{% if active_emergencies %}
+<section class="emergencies-section">
+  <div class="container">
+    <h2 class="section-title emergency-title">🚨 Active Emergency Requests</h2>
+    <div class="emergency-grid">
+      {% for e in active_emergencies %}
+      <div class="emergency-card reveal">
+        <div class="em-blood">{{ e.blood_group }}</div>
+        <div class="em-info">
+          <h4>{{ e.patient_name }}</h4>
+          <p>{{ e.hospital }}, {{ e.city }}</p>
+          <p><strong>{{ e.units_needed }} units needed</strong></p>
+          <a href="tel:{{ e.contact_phone }}" class="btn btn-sm btn-danger">📞 {{ e.contact_phone }}</a>
+        </div>
+        <div class="urgency-tag urgency-{{ e.urgency }}">{{ e.urgency|upper }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- CTA Section -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-box">
+      <h2>Ready to Be a Hero?</h2>
+      <p>Every 2 seconds, someone in India needs blood. Your donation makes the difference.</p>
+      <div class="cta-buttons">
+        <a href="{{ url_for('register') }}" class="btn btn-white btn-lg">Register as Donor</a>
+        <a href="{{ url_for('emergency') }}" class="btn btn-outline-white btn-lg">Request Emergency Blood</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

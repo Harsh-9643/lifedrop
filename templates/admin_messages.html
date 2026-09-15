@@ -1,0 +1,49 @@
+{% extends 'admin_base.html' %}
+{% block title %}Messages{% endblock %}
+{% block page_title %}Contact Messages{% endblock %}
+{% block content %}
+
+<div class="admin-section">
+  <h2 class="admin-section-title">All Messages ({{ messages|length }})</h2>
+  <div class="table-scroll">
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Subject</th>
+        <th>Message</th>
+        <th>Status</th>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for msg in messages %}
+      <tr class="{% if not msg.is_read %}unread-row{% endif %}">
+        <td>{{ loop.index }}</td>
+        <td><strong>{{ msg.name }}</strong></td>
+        <td>{{ msg.email }}</td>
+        <td>{{ msg.subject or '—' }}</td>
+        <td class="msg-preview">{{ msg.message[:100] }}{% if msg.message|length > 100 %}...{% endif %}</td>
+        <td>
+          <span class="status-badge {% if msg.is_read %}read{% else %}unread{% endif %}">
+            {% if msg.is_read %}Read{% else %}Unread{% endif %}
+          </span>
+        </td>
+        <td>{{ msg.sent_at.strftime('%d %b %Y') }}</td>
+        <td class="action-btns">
+          {% if not msg.is_read %}
+          <a href="{{ url_for('mark_read', id=msg.id) }}" class="btn-table green">✅ Mark Read</a>
+          {% endif %}
+          <a href="{{ url_for('delete_message', id=msg.id) }}" class="btn-table red" onclick="return confirm('Delete this message?')">🗑️</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends 'admin_base.html' %}
+{% block title %}Blood Camps{% endblock %}
+{% block page_title %}Manage Blood Camps{% endblock %}
+{% block content %}
+
+<div class="admin-section">
+  <h2 class="admin-section-title">Add New Blood Camp</h2>
+  <form method="POST" action="{{ url_for('admin_camps') }}" class="admin-form">
+    <div class="admin-form-grid">
+      <div class="form-group">
+        <label>Camp Name *</label>
+        <input type="text" name="name" placeholder="e.g. Red Cross Blood Drive" required>
+      </div>
+      <div class="form-group">
+        <label>Location / Venue *</label>
+        <input type="text" name="location" placeholder="Hall name, street, etc." required>
+      </div>
+      <div class="form-group">
+        <label>City *</label>
+        <input type="text" name="city" placeholder="City name" required>
+      </div>
+      <div class="form-group">
+        <label>Date *</label>
+        <input type="date" name="date" required>
+      </div>
+      <div class="form-group">
+        <label>Time</label>
+        <input type="text" name="time" placeholder="e.g. 9 AM – 4 PM">
+      </div>
+      <div class="form-group">
+        <label>Organizer</label>
+        <input type="text" name="organizer" placeholder="Organizing institution">
+      </div>
+      <div class="form-group">
+        <label>Contact Number</label>
+        <input type="text" name="contact" placeholder="Phone to register">
+      </div>
+    </div>
+    <button type="submit" class="btn-admin mt-2">Add Camp ➕</button>
+  </form>
+</div>
+
+<div class="admin-section mt-3">
+  <h2 class="admin-section-title">All Camps ({{ camps|length }})</h2>
+  <div class="table-scroll">
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Camp Name</th>
+        <th>Location</th>
+        <th>City</th>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Organizer</th>
+        <th>Contact</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for c in camps %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td><strong>{{ c.name }}</strong></td>
+        <td>{{ c.location }}</td>
+        <td>{{ c.city }}</td>
+        <td>{{ c.date }}</td>
+        <td>{{ c.time or '—' }}</td>
+        <td>{{ c.organizer or '—' }}</td>
+        <td>{{ c.contact or '—' }}</td>
+        <td>
+          <a href="{{ url_for('delete_camp', id=c.id) }}" class="btn-table red" onclick="return confirm('Delete this camp?')">🗑️ Delete</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</div>
+
+{% endblock %}

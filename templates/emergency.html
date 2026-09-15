@@ -1,0 +1,127 @@
+{% extends 'base.html' %}
+{% block title %}Emergency Blood Request{% endblock %}
+{% block content %}
+
+<section class="page-hero emergency-page-hero">
+  <div class="container">
+    <div class="emergency-badge-large">🚨 EMERGENCY</div>
+    <h1 class="page-hero-title">Request <span class="accent">Emergency Blood</span></h1>
+    <p class="page-hero-sub">Fill out this form immediately. Our team will notify available donors in your area right away.</p>
+  </div>
+</section>
+
+<section class="emergency-section">
+  <div class="container two-col">
+
+    <div class="emergency-form-wrap reveal">
+      <h2>Emergency Blood Request</h2>
+      <form method="POST" action="{{ url_for('emergency') }}" class="donor-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Patient Name *</label>
+            <input type="text" name="patient_name" placeholder="Patient's full name" required>
+          </div>
+          <div class="form-group">
+            <label>Blood Group Required *</label>
+            <select name="blood_group" required>
+              <option value="">Select Blood Group</option>
+              <option value="A+">A+</option>
+              <option value="A-">A−</option>
+              <option value="B+">B+</option>
+              <option value="B-">B−</option>
+              <option value="O+">O+</option>
+              <option value="O-">O−</option>
+              <option value="AB+">AB+</option>
+              <option value="AB-">AB−</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Units Needed *</label>
+            <input type="number" name="units_needed" placeholder="Number of units" min="1" required>
+          </div>
+          <div class="form-group">
+            <label>Urgency Level *</label>
+            <select name="urgency" required>
+              <option value="urgent">Urgent (within hours)</option>
+              <option value="critical">Critical (right now)</option>
+              <option value="moderate">Moderate (within 24h)</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Hospital Name *</label>
+          <input type="text" name="hospital" placeholder="Full hospital name" required>
+        </div>
+        <div class="form-group">
+          <label>City *</label>
+          <input type="text" name="city" placeholder="City where hospital is located" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Your Name (Contact Person) *</label>
+            <input type="text" name="contact_name" placeholder="Your name" required>
+          </div>
+          <div class="form-group">
+            <label>Contact Phone *</label>
+            <input type="tel" name="contact_phone" placeholder="10-digit number" required>
+          </div>
+        </div>
+        <button type="submit" class="btn btn-danger btn-full">Submit Emergency Request 🚨</button>
+      </form>
+    </div>
+
+    <div class="emergency-sidebar reveal">
+      <div class="sidebar-card urgent-card">
+        <h3>📞 Helpline (24/7)</h3>
+        <div class="helpline-number">+91-XXXX-XXXXXX</div>
+        <p>Our team is available round the clock for blood emergencies.</p>
+      </div>
+      <div class="sidebar-card mt-2">
+        <h3>⏱️ What Happens Next?</h3>
+        <ol class="steps-list">
+          <li>Your request is logged immediately</li>
+          <li>We alert matching donors in your city</li>
+          <li>Donors contact you directly</li>
+          <li>Admin team coordinates if needed</li>
+        </ol>
+      </div>
+      <div class="sidebar-card mt-2">
+        <h3>🏥 Nearest Blood Banks</h3>
+        <p>In critical situations, also contact your nearest government blood bank. They maintain emergency reserves.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Compatibility Table -->
+<section class="compat-section">
+  <div class="container">
+    <h2 class="section-title">Blood Compatibility Quick Reference</h2>
+    <div class="compat-table-wrap">
+      <table class="compat-table">
+        <thead>
+          <tr>
+            <th>Patient's Blood</th>
+            <th>Can Receive From</th>
+            <th>Universal Donor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>A+</strong></td><td>A+, A−, O+, O−</td><td>O−</td></tr>
+          <tr><td><strong>A−</strong></td><td>A−, O−</td><td>O−</td></tr>
+          <tr><td><strong>B+</strong></td><td>B+, B−, O+, O−</td><td>O−</td></tr>
+          <tr><td><strong>B−</strong></td><td>B−, O−</td><td>O−</td></tr>
+          <tr><td><strong>O+</strong></td><td>O+, O−</td><td>O−</td></tr>
+          <tr><td><strong>O−</strong></td><td>O− only</td><td>O−</td></tr>
+          <tr><td><strong>AB+</strong></td><td>ALL types</td><td>O−</td></tr>
+          <tr><td><strong>AB−</strong></td><td>A−, B−, O−, AB−</td><td>O−</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,57 @@
+{% extends 'admin_base.html' %}
+{% block title %}Emergencies{% endblock %}
+{% block page_title %}Emergency Requests{% endblock %}
+{% block content %}
+
+<div class="admin-section">
+  <h2 class="admin-section-title">All Emergency Requests ({{ emergencies|length }})</h2>
+  <div class="table-scroll">
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Patient</th>
+        <th>Blood</th>
+        <th>Units</th>
+        <th>Hospital</th>
+        <th>City</th>
+        <th>Contact Name</th>
+        <th>Phone</th>
+        <th>Urgency</th>
+        <th>Status</th>
+        <th>Requested</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for e in emergencies %}
+      <tr class="{% if not e.is_fulfilled %}urgent-row{% endif %}">
+        <td>{{ loop.index }}</td>
+        <td><strong>{{ e.patient_name }}</strong></td>
+        <td><span class="blood-badge">{{ e.blood_group }}</span></td>
+        <td>{{ e.units_needed }}</td>
+        <td>{{ e.hospital }}</td>
+        <td>{{ e.city }}</td>
+        <td>{{ e.contact_name }}</td>
+        <td>{{ e.contact_phone }}</td>
+        <td><span class="urgency-badge urgency-{{ e.urgency }}">{{ e.urgency }}</span></td>
+        <td>
+          <span class="status-badge {% if e.is_fulfilled %}read{% else %}unread{% endif %}">
+            {% if e.is_fulfilled %}Fulfilled{% else %}Active{% endif %}
+          </span>
+        </td>
+        <td>{{ e.requested_at.strftime('%d %b %Y') }}</td>
+        <td class="action-btns">
+          {% if not e.is_fulfilled %}
+          <a href="{{ url_for('fulfill_emergency', id=e.id) }}" class="btn-table green">✅ Fulfill</a>
+          {% endif %}
+          <a href="{{ url_for('delete_emergency', id=e.id) }}" class="btn-table red" onclick="return confirm('Delete emergency request?')">🗑️</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% block title %}About Us{% endblock %}
+{% block content %}
+
+<section class="page-hero">
+  <div class="container">
+    <h1 class="page-hero-title">About <span class="accent">LifeDrop</span></h1>
+    <p class="page-hero-sub">A community-driven platform connecting blood donors with those in urgent need.</p>
+  </div>
+</section>
+
+<section class="about-mission">
+  <div class="container two-col">
+    <div class="about-text reveal">
+      <h2>Our Mission</h2>
+      <p>LifeDrop was born from a simple but powerful idea: no one should die because they couldn't find blood in time. We bridge the gap between willing donors and patients in need — creating a seamless network of life-savers across India.</p>
+      <p>Whether it's a planned surgery or a sudden accident, blood is irreplaceable. No machine can make it. Only humans can give it. That's why every registered donor on our platform is a true hero.</p>
+    </div>
+    <div class="about-visual reveal">
+      <div class="mission-card">
+        <div class="mission-icon">🩸</div>
+        <h3>4.5 Crore</h3>
+        <p>Units of blood needed in India every year</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="values-section">
+  <div class="container">
+    <h2 class="section-title">Our Values</h2>
+    <div class="values-grid">
+      <div class="value-card reveal">
+        <div class="val-icon">❤️</div>
+        <h3>Compassion</h3>
+        <p>We believe every life is precious. Our platform is built on empathy for patients and gratitude for donors.</p>
+      </div>
+      <div class="value-card reveal">
+        <div class="val-icon">⚡</div>
+        <h3>Speed</h3>
+        <p>In emergencies, every minute matters. Our platform is optimized to connect people in the fastest time possible.</p>
+      </div>
+      <div class="value-card reveal">
+        <div class="val-icon">🔒</div>
+        <h3>Privacy</h3>
+        <p>We respect your data. Donor information is only shared when you're actively matched with a request.</p>
+      </div>
+      <div class="value-card reveal">
+        <div class="val-icon">🤝</div>
+        <h3>Community</h3>
+        <p>We're a network of individuals who believe in the power of human connection and the will to help strangers.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="who-can-donate">
+  <div class="container">
+    <h2 class="section-title">Who Can Donate?</h2>
+    <div class="eligibility-grid">
+      <div class="elig-card green reveal">
+        <h3>✅ You Can Donate If:</h3>
+        <ul>
+          <li>You are between 18–65 years of age</li>
+          <li>You weigh at least 50 kg</li>
+          <li>Your hemoglobin is ≥12.5 g/dL</li>
+          <li>You are in good general health</li>
+          <li>It has been 3 months since your last donation</li>
+          <li>You have not taken antibiotics in the last 48 hours</li>
+        </ul>
+      </div>
+      <div class="elig-card red reveal">
+        <h3>❌ You Cannot Donate If:</h3>
+        <ul>
+          <li>You have had a cold or flu in the last 2 weeks</li>
+          <li>You are pregnant or breastfeeding</li>
+          <li>You have had a tattoo or piercing in the last 6 months</li>
+          <li>You have been diagnosed with HIV, Hepatitis B/C</li>
+          <li>You have undergone major surgery recently</li>
+          <li>You are under certain medications</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="team-section">
+  <div class="container">
+    <h2 class="section-title">Meet the Team</h2>
+    <div class="team-grid">
+      <div class="team-card reveal">
+        <div class="team-avatar">👨‍⚕️</div>
+        <h4>Dr. Arjun Sharma</h4>
+        <span>Medical Advisor</span>
+      </div>
+      <div class="team-card reveal">
+        <div class="team-avatar">👩‍💻</div>
+        <h4>Priya Kapoor</h4>
+        <span>Tech Lead</span>
+      </div>
+      <div class="team-card reveal">
+        <div class="team-avatar">👨‍🎨</div>
+        <h4>Rohan Mehta</h4>
+        <span>Design & UX</span>
+      </div>
+      <div class="team-card reveal">
+        <div class="team-avatar">👩‍🏫</div>
+        <h4>Ananya Singh</h4>
+        <span>Community Manager</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-box">
+      <h2>Join Our Mission</h2>
+      <p>Register today and be part of a network that saves lives every single day.</p>
+      <a href="{{ url_for('register') }}" class="btn btn-white btn-lg">Become a Donor</a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,131 @@
+{% extends 'admin_base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block page_title %}Dashboard Overview{% endblock %}
+{% block content %}
+
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-icon">🩸</div>
+    <div class="stat-info">
+      <div class="stat-num">{{ stats.total_donors }}</div>
+      <div class="stat-label">Total Donors</div>
+    </div>
+  </div>
+  <div class="stat-card green">
+    <div class="stat-icon">✅</div>
+    <div class="stat-info">
+      <div class="stat-num">{{ stats.available_donors }}</div>
+      <div class="stat-label">Available Donors</div>
+    </div>
+  </div>
+  <div class="stat-card yellow">
+    <div class="stat-icon">✉️</div>
+    <div class="stat-info">
+      <div class="stat-num">{{ stats.unread_messages }}</div>
+      <div class="stat-label">Unread Messages</div>
+    </div>
+  </div>
+  <div class="stat-card red">
+    <div class="stat-icon">🚨</div>
+    <div class="stat-info">
+      <div class="stat-num">{{ stats.active_emergencies }}</div>
+      <div class="stat-label">Active Emergencies</div>
+    </div>
+  </div>
+  <div class="stat-card blue">
+    <div class="stat-icon">🏕️</div>
+    <div class="stat-info">
+      <div class="stat-num">{{ stats.total_camps }}</div>
+      <div class="stat-label">Blood Camps</div>
+    </div>
+  </div>
+  <div class="stat-card purple">
+    <div class="stat-icon">💚</div>
+    <div class="stat-info">
+      <div class="stat-num">{{ stats.fulfilled_emergencies }}</div>
+      <div class="stat-label">Emergencies Fulfilled</div>
+    </div>
+  </div>
+</div>
+
+{% if active_emergencies %}
+<div class="admin-section">
+  <h2 class="admin-section-title">🚨 Active Emergency Requests</h2>
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>Patient</th>
+        <th>Blood Group</th>
+        <th>Units</th>
+        <th>Hospital</th>
+        <th>City</th>
+        <th>Contact</th>
+        <th>Urgency</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for e in active_emergencies %}
+      <tr>
+        <td>{{ e.patient_name }}</td>
+        <td><span class="blood-badge">{{ e.blood_group }}</span></td>
+        <td>{{ e.units_needed }}</td>
+        <td>{{ e.hospital }}</td>
+        <td>{{ e.city }}</td>
+        <td>{{ e.contact_phone }}</td>
+        <td><span class="urgency-badge urgency-{{ e.urgency }}">{{ e.urgency }}</span></td>
+        <td class="action-btns">
+          <a href="{{ url_for('fulfill_emergency', id=e.id) }}" class="btn-table green">✅ Fulfill</a>
+          <a href="{{ url_for('delete_emergency', id=e.id) }}" class="btn-table red" onclick="return confirm('Delete this request?')">🗑️ Delete</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+
+<div class="dashboard-split">
+  <div class="admin-section half">
+    <h2 class="admin-section-title">Recent Donors</h2>
+    <table class="admin-table">
+      <thead>
+        <tr><th>Name</th><th>Blood</th><th>City</th><th>Phone</th></tr>
+      </thead>
+      <tbody>
+        {% for d in recent_donors %}
+        <tr>
+          <td>{{ d.name }}</td>
+          <td><span class="blood-badge">{{ d.blood_group }}</span></td>
+          <td>{{ d.city }}</td>
+          <td>{{ d.phone }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <a href="{{ url_for('admin_donors') }}" class="admin-view-all">View All Donors →</a>
+  </div>
+
+  <div class="admin-section half">
+    <h2 class="admin-section-title">Recent Messages</h2>
+    <table class="admin-table">
+      <thead>
+        <tr><th>From</th><th>Subject</th><th>Status</th></tr>
+      </thead>
+      <tbody>
+        {% for msg in recent_messages %}
+        <tr>
+          <td>{{ msg.name }}</td>
+          <td>{{ msg.subject or '(no subject)' }}</td>
+          <td><span class="status-badge {% if msg.is_read %}read{% else %}unread{% endif %}">
+            {% if msg.is_read %}Read{% else %}Unread{% endif %}
+          </span></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <a href="{{ url_for('admin_messages') }}" class="admin-view-all">View All Messages →</a>
+  </div>
+</div>
+
+{% endblock %}

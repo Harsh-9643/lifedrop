@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>{% block title %}Admin{% endblock %} — LifeDrop Admin</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}">
+  {% block extra_css %}{% endblock %}
+</head>
+<body class="admin-body">
+
+  <div class="admin-layout">
+    <!-- Sidebar -->
+    <aside class="admin-sidebar">
+      <div class="sidebar-logo">💧 LifeDrop</div>
+      <nav class="sidebar-nav">
+        <a href="{{ url_for('admin_dashboard') }}" class="sidebar-link {% if request.endpoint=='admin_dashboard' %}active{% endif %}">
+          <span class="s-icon">📊</span> Dashboard
+        </a>
+        <a href="{{ url_for('admin_donors') }}" class="sidebar-link {% if request.endpoint=='admin_donors' %}active{% endif %}">
+          <span class="s-icon">🩸</span> Donors
+        </a>
+        <a href="{{ url_for('admin_messages') }}" class="sidebar-link {% if request.endpoint=='admin_messages' %}active{% endif %}">
+          <span class="s-icon">✉️</span> Messages
+        </a>
+        <a href="{{ url_for('admin_camps') }}" class="sidebar-link {% if request.endpoint=='admin_camps' %}active{% endif %}">
+          <span class="s-icon">🏕️</span> Blood Camps
+        </a>
+        <a href="{{ url_for('admin_emergencies') }}" class="sidebar-link {% if request.endpoint=='admin_emergencies' %}active{% endif %}">
+          <span class="s-icon">🚨</span> Emergencies
+        </a>
+        <div class="sidebar-divider"></div>
+        <a href="{{ url_for('index') }}" class="sidebar-link">
+          <span class="s-icon">🌐</span> View Website
+        </a>
+        <a href="{{ url_for('admin_logout') }}" class="sidebar-link sidebar-logout">
+          <span class="s-icon">🚪</span> Logout
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="admin-main">
+      <header class="admin-topbar">
+        <h1 class="admin-page-title">{% block page_title %}Dashboard{% endblock %}</h1>
+        <div class="admin-user-info">
+          <span>👤 Admin</span>
+        </div>
+      </header>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="admin-flash-container">
+            {% for category, message in messages %}
+              <div class="admin-flash admin-flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      <div class="admin-content">
+        {% block content %}{% endblock %}
+      </div>
+    </div>
+  </div>
+
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

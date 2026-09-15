@@ -1,0 +1,58 @@
+{% extends 'admin_base.html' %}
+{% block title %}Donors{% endblock %}
+{% block page_title %}Manage Donors{% endblock %}
+{% block content %}
+
+<div class="admin-section">
+  <div class="section-header-row">
+    <h2 class="admin-section-title">All Donors ({{ donors|length }})</h2>
+    <a href="{{ url_for('register') }}" class="btn-admin">+ Add Donor</a>
+  </div>
+  <div class="table-scroll">
+  <table class="admin-table">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Name</th>
+        <th>Blood</th>
+        <th>City</th>
+        <th>Phone</th>
+        <th>Email</th>
+        <th>Age</th>
+        <th>Last Donated</th>
+        <th>Status</th>
+        <th>Registered</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for d in donors %}
+      <tr>
+        <td>{{ loop.index }}</td>
+        <td><strong>{{ d.name }}</strong></td>
+        <td><span class="blood-badge">{{ d.blood_group }}</span></td>
+        <td>{{ d.city }}</td>
+        <td>{{ d.phone }}</td>
+        <td>{{ d.email or '—' }}</td>
+        <td>{{ d.age or '—' }}</td>
+        <td>{{ d.last_donated or '—' }}</td>
+        <td>
+          <span class="status-badge {% if d.is_available %}available{% else %}unavailable{% endif %}">
+            {% if d.is_available %}Active{% else %}Disabled{% endif %}
+          </span>
+        </td>
+        <td>{{ d.registered_at.strftime('%d %b %Y') }}</td>
+        <td class="action-btns">
+          <a href="{{ url_for('toggle_donor', id=d.id) }}" class="btn-table {% if d.is_available %}yellow{% else %}green{% endif %}">
+            {% if d.is_available %}Disable{% else %}Enable{% endif %}
+          </a>
+          <a href="{{ url_for('delete_donor', id=d.id) }}" class="btn-table red" onclick="return confirm('Delete donor {{ d.name }}?')">🗑️</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</div>
+
+{% endblock %}
