@@ -51,14 +51,7 @@ python app.py
 
 ---
 
-## 🔐 Admin Credentials
-
-| Field    | Value          |
-|----------|----------------|
-| Username | `admin`        |
-| Password | `lifedrop2024` |
-
-> To change credentials, edit `ADMIN_USERNAME` and `ADMIN_PASSWORD` in `app.py`
+Admin credentials are set via environment variables (ADMIN_USERNAME, ADMIN_PASSWORD) — not hardcoded.
 
 ---
 
