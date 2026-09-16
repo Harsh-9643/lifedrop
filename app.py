@@ -58,8 +58,14 @@ class Emergency(db.Model):
     requested_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 # ──────────────── ADMIN CREDENTIALS ────────────────
-ADMIN_USERNAME = os.environ.get('ADMIN_USERNAME', 'admin')
-ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'lifedrop2024')
+ADMIN_USERNAME = os.environ.get('ADMIN_USERNAME')
+ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD')
+
+if not ADMIN_USERNAME or not ADMIN_PASSWORD:
+    raise RuntimeError(
+        "ADMIN_USERNAME and ADMIN_PASSWORD environment variables must be set. "
+        "The app will not start without them, to avoid falling back to a weak default password."
+    )
 
 def admin_required(f):
     from functools import wraps
